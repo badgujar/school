@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "prototype.sample.input.source.path",
+    "type": "java.lang.String",
+    "description": "A description for 'prototype.sample.input.source.path'"
+  },
+  {
+    "name": "prototype.sample.input.source.success.path",
+    "type": "java.lang.String",
+    "description": "A description for 'prototype.sample.input.source.success.path'"
+  },
+  {
+    "name": "prototype.sample.input.source.error.path",
+    "type": "java.lang.String",
+    "description": "A description for 'prototype.sample.input.source.error.path'"
+  }
+]}
