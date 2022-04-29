@@ -25,7 +25,8 @@ public class FileRouter extends RouteBuilder {
 		Predicate failPredicate = header(Constant.FILE_FAILED).isEqualTo(Constant.TRUE);
 		Predicate processedPredicate = header(Constant.FILE_PROCESSED).isEqualTo(Constant.TRUE);
 
-		from(fileComponent + sourcePath).bean(FileHandler.class).tracing().choice().when(failPredicate)
+		from(fileComponent + sourcePath).
+		bean(FileHandler.class).tracing().choice().when(failPredicate)
 				.to(fileComponent + errorPath).end().choice().when(processedPredicate).to(fileComponent + successPath)
 				.end().log("${body}").log("${messageHistory}");
 	}
