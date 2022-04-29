@@ -4,9 +4,11 @@ import java.util.List;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
 public class StudentTransactionRecord extends StudentRecordMetadata{
 
 	private String enrollmentValidationStatus;

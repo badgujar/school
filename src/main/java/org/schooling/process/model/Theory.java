@@ -8,4 +8,5 @@ public class Theory {
 	private String subjectTag;
 	private String marks;
 	private String hcrMarks;
+
 }

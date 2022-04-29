@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.schooling.process.core.CacheProvider;
 import org.schooling.process.core.ExecutionContext;
 import org.schooling.process.helper.FileHandleHelper;
+import org.schooling.process.model.StudentTransactionRecord;
 import org.schooling.process.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -39,18 +40,23 @@ public class FileHandler implements Processor {
 		log.debug(THIS_CLASS_NAME, methodName, "Received Inbound file from the path: " + filePath);
 
 		String message = exchange.getIn().getBody(String.class);
-		ctx.put("Message", message);
+
+		ctx.put(Constant.EXCHANGE, exchange);
+
+		ctx.put(Constant.STUDENT_TXN_RECORD_MESSAGE, message);
 		ctx.put("camelfilenameonly", (String) exchange.getIn().getHeader("camelfilenameonly"));
 
 		fileHandlerHelper.validateFileMetaData(ctx);
 
-		if (!"Success".equalsIgnoreCase(message)) {
-			exchange.getIn().setHeader(Constant.FILE_FAILED, Constant.TRUE);
-		} else {
-			fileHandlerHelper.validateRecordLevel(ctx);
-		}
+		StudentTransactionRecord studentTransactionRecord = new StudentTransactionRecord();
+		fileHandlerHelper.validateRecordLevel(studentTransactionRecord, ctx);
 
-		System.out.println(message);
+		if (Constant.ENROLLEMENT_STATUS_FAILED
+				.equals(studentTransactionRecord.getEnrollmentValidationStatus())) {
+			exchange.getIn().setHeader(Constant.FILE_FAILED, Constant.TRUE);
+		}
+//finally
+		ctx.clear();
 	}
 
 }
