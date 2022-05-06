@@ -2,6 +2,8 @@ package org.schooling.process.routes;
 
 import org.apache.camel.Predicate;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.dataformat.beanio.BeanIODataFormat;
+import org.apache.camel.spi.DataFormat;
 import org.schooling.process.handler.FileHandler;
 import org.schooling.process.utils.Constant;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,8 +26,10 @@ public class FileRouter extends RouteBuilder {
 
 		Predicate failPredicate = header(Constant.FILE_FAILED).isEqualTo(Constant.TRUE);
 		Predicate processedPredicate = header(Constant.FILE_PROCESSED).isEqualTo(Constant.TRUE);
+		
+		DataFormat dataFormat = new BeanIODataFormat("classpath:transformation/request/beanio/studentenrollmentbeanio.xml", "studentEnrollment");
 
-		from(fileComponent + sourcePath).
+		from(fileComponent + sourcePath).unmarshal(dataFormat).
 		bean(FileHandler.class).tracing().choice().when(failPredicate)
 				.to(fileComponent + errorPath).end().choice().when(processedPredicate).to(fileComponent + successPath)
 				.end().log("${body}").log("${messageHistory}");

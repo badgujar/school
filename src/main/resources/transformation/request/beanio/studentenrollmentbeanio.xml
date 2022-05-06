@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beanio xmlns="http://www.beanio.org/2012/03"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.beanio.org/2012/03 http://www.beanio.org/2012/03/mapping.xsd">
+
+	<stream name="studentEnrollment" format="csv">
+
+		<parser>
+			<property name="delimiter" value="," />
+			<property name="lineSeparator" value="\n|\r\n" />
+			<property name="whitespaceAllowed" value="true" />
+		</parser>
+		<record name="student"
+			class="org.schooling.process.model.StudentEnrollmentRecord">
+			<field name="rollNumber" type="string" ignore="false" />
+			<field name="name" type="string" ignore="false" />
+			<field name="fatherName" type="string" ignore="false" />
+			<field name="motherName" type="string" ignore="false" />
+			<field name="registrationNumber" type="string" ignore="false" />
+			<field name="gender" type="string" ignore="false" />
+			<field name="communityCode" type="string" ignore="false" />
+			<field name="categoryCode" type="string" ignore="false" />
+			<field name="appearingCode" type="string" ignore="false" />
+			<field name="previousRollNumber" type="string" ignore="false" />
+			<field name="english" type="string" ignore="false" />
+			<field name="milSubject" type="string" ignore="false" />
+			<field name="optional1" type="string" ignore="false" />
+			<field name="optional2" type="string" ignore="false" />
+			<field name="optional3" type="string" ignore="false" />
+			<field name="optional4" type="string" ignore="false" />
+			<field name="totalSubject" type="string" ignore="false" />
+			<field name="annualIncome" type="string" ignore="false" />
+			<field name="workExperience" type="string" ignore="false" />
+			<field name="SchemeTag" type="string" ignore="false" />
+			<field name="yoga" type="string" ignore="false" />
+			<field name="basicCompEductation" type="string" ignore="false" />
+			<field name="remainingCharacters" type="string" ignore="false" />
+		</record>
+	</stream>
+</beanio>
