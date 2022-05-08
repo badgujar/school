@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beanio xmlns="http://www.beanio.org/2012/03"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.beanio.org/2012/03 http://www.beanio.org/2012/03/mapping.xsd">
+
+	<stream name="studentEnrollmentData" format="csv">
+
+		<parser>
+			<property name="delimiter" value="," />
+			<property name="lineSeparator" value="\n|\r\n" />
+			<property name="whitespaceAllowed" value="true" />
+		</parser>
+		<record name="student"
+			class="org.schooling.process.model.StudentData">
+					<field name="districtCode" type="string" ignore="false" />
+		<field name="collegeCode" type="string" ignore="false" />
+		<field name="streamCode" type="string" ignore="false" />
+		<field name="serialNumber" type="string" ignore="false" />
+		<field name="examCenterCode" type="string" ignore="false" />
+		<field name="name" type="string" ignore="false" />
+		<field name="fatherName" type="string" ignore="false" />
+		<field name="motherName" type="string" ignore="false" />
+		<field name="registrationNumber" type="string" ignore="false" />
+		<field name="sex" type="string" ignore="false" />
+		<field name="communityCode" type="string" ignore="false" />
+		<field name="categoryCode" type="string" ignore="false" />
+		<field name="appearingCode" type="string" ignore="false" />
+		<field name="previousRollNumber" type="string" ignore="false" />
+		<field name="englishSubjectCode" type="string" ignore="false" />
+		<field name="engPaper1Tag" type="string" ignore="false" />
+		<field name="engPaper1Marks" type="string" ignore="false" />
+		<field name="engPaper1HcrMarks" type="string" ignore="false" />
+		<field name="engPaper2Tag" type="string" ignore="false" />
+		<field name="engPaper2Marks" type="string" ignore="false" />
+		<field name="engPaper2HcrMarks" type="string" ignore="false" />
+		<field name="millSub" type="string" ignore="false" />
+		<field name="millSubTag" type="string" ignore="false" />
+		<field name="millSubMarks" type="string" ignore="false" />
+		<field name="millSubHcrMarks" type="string" ignore="false" />
+		<field name="optionalSub1" type="string" ignore="false" />
+		<field name="optionalSub1Theory1Tag" type="string" ignore="false" />
+		<field name="optionalSub1Theory1Marks" type="string" ignore="false" />
+		<field name="optionalSub1Theory1Hcr" type="string" ignore="false" />
+		<field name="optionalSub1Theory2Tag" type="string" ignore="false" />
+		<field name="optionalSub1Theory2Marks" type="string" ignore="false" />
+		<field name="optionalSub1Theory2Hcr" type="string" ignore="false" />
+		<field name="optionalSub1Practical1Tag" type="string" ignore="false" />
+		<field name="optionalSub1Practical1Marks" type="string" ignore="false" />
+		<field name="optionalSub1Practical1Hcr" type="string" ignore="false" />
+		<field name="optionalSub2" type="string" ignore="false" />
+		<field name="optionalSub2Theory1Tag" type="string" ignore="false" />
+		<field name="optionalSub2Theory1Marks" type="string" ignore="false" />
+		<field name="optionalSub2Theory1Hcr" type="string" ignore="false" />
+		<field name="optionalSub2Theory2Tag" type="string" ignore="false" />
+		<field name="optionalSub2Theory2Marks" type="string" ignore="false" />
+		<field name="optionalSub2Theory2Hcr" type="string" ignore="false" />
+		<field name="optionalSub2Practical1Tag" type="string" ignore="false" />
+		<field name="optionalSub2Practical1Marks" type="string" ignore="false" />
+		<field name="optionalSub2Practical1Hcr" type="string" ignore="false" />
+		<field name="optionalSub3" type="string" ignore="false" />
+		<field name="optionalSub3Theory1Tag" type="string" ignore="false" />
+		<field name="optionalSub3Theory1Marks" type="string" ignore="false" />
+		<field name="optionalSub3Theory1Hcr" type="string" ignore="false" />
+		<field name="optionalSub3Theory2Tag" type="string" ignore="false" />
+		<field name="optionalSub3Theory2Marks" type="string" ignore="false" />
+		<field name="optionalSub3Theory2Hcr" type="string" ignore="false" />
+		<field name="optionalSub3Practical1Tag" type="string" ignore="false" />
+		<field name="optionalSub3Practical1Marks" type="string" ignore="false" />
+		<field name="optionalSub3Practical1Hcr" type="string" ignore="false" />
+		<field name="optionalSub3Practical2Tag" type="string" ignore="false" />
+		<field name="optionalSub3Practical2Marks" type="string" ignore="false" />
+		<field name="optionalSub3Practical2Hcr" type="string" ignore="false" />
+		<field name="optionalSub4" type="string" ignore="false" />
+		<field name="optionalSub4Theory1Tag" type="string" ignore="false" />
+		<field name="optionalSub4Theory1Marks" type="string" ignore="false" />
+		<field name="optionalSub4Theory1Hcr" type="string" ignore="false" />
+		<field name="optionalSub4Theory2Tag" type="string" ignore="false" />
+		<field name="optionalSub4Theory2Marks" type="string" ignore="false" />
+		<field name="optionalSub4Theory2Hcr" type="string" ignore="false" />
+		<field name="optionalSub4Practical1Tag" type="string" ignore="false" />
+		<field name="optionalSub4Practical1Marks" type="string" ignore="false" />
+		<field name="optionalSub4Practical1Hcr" type="string" ignore="false" />
+		<field name="optionalSub4Practical2Tag" type="string" ignore="false" />
+		<field name="optionalSub4Practical2Marks" type="string" ignore="false" />
+		<field name="optionalSub4Practical2Hcr" type="string" ignore="false" />
+		<field name="extraOptedExcessMarks" type="string" ignore="false" />
+		<field name="aggregateMarks" type="string" ignore="false" />
+		<field name="aggregateMarksWithExtOpt" type="string" ignore="false" />
+		<field name="resultTag" type="string" ignore="false" />
+		<field name="hcrHardTag" type="string" ignore="false" />
+		<field name="engSubPassFailFlag" type="string" ignore="false" />
+		<field name="millSubPassFailFlag" type="string" ignore="false" />
+		<field name="optSub1ThPassFailFlag" type="string" ignore="false" />
+		<field name="optSub1PrFailFlag" type="string" ignore="false" />
+		<field name="optSub2ThPassFailFlag" type="string" ignore="false" />
+		<field name="optSub2PrFailFlag" type="string" ignore="false" />
+		<field name="optSub3ThPassFailFlag" type="string" ignore="false" />
+		<field name="optSub3PrPassFailFlag" type="string" ignore="false" />
+		<field name="optSub4ThPassFailFlag" type="string" ignore="false" />
+		<field name="optSub4PrPassFailFlag" type="string" ignore="false" />
+		<field name="awmTagCode" type="string" ignore="false" />
+		<field name="totalEnrolledSubjects" type="string" ignore="false" />
+		<field name="cancPaperTag" type="string" ignore="false" />
+		<field name="schemeTag" type="string" ignore="false" />
+		<field name="workExperience" type="string" ignore="false" />
+		<field name="annualIncome" type="string" ignore="false" />
+		<field name="instantSub" type="string" ignore="false" />
+		<field name="mnrRefNumber" type="string" ignore="false" />
+		<field name="certificationNumber" type="string" ignore="false" />
+		<field name="yoga" type="string" ignore="false" />
+		<field name="basicComputerEdu" type="string" ignore="false" />
+		<field name="filler" type="string" ignore="false" />
+		</record>
+	</stream>
+</beanio>
