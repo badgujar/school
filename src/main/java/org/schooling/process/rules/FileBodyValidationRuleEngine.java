@@ -58,7 +58,7 @@ public class FileBodyValidationRuleEngine implements RuleEngine {
 	
 	@Autowired
 	private CanditateCategoryCodeValidationRule canditateCategoryCodeValidationRule;
-	// loging level
+
 	@Autowired
 	private CanditateAppearingCodeValidationRule canditateAppearingCodeValidationRule;
 	

@@ -13,6 +13,9 @@ public class CanditateRegNumberValidationRule extends AbstractFileBodyValidation
 
 	private Logger log = LogManager.getLogger(CanditateRegNumberValidationRule.class);
 
+	private static final int REGNUMBER_START_INDEX = 117;
+	private static final int REGNUMBER_END_INDEX = 127;
+
 	@Override
 	public boolean executeRule(StudentTransactionRecord studentTransactionRecord, ExecutionContext ctx) {
 
@@ -20,7 +23,8 @@ public class CanditateRegNumberValidationRule extends AbstractFileBodyValidation
 			String studentTxnRecordMessage = (String) ctx.get(Constant.STUDENT_TXN_RECORD_MESSAGE);
 
 			String regNumber = RecordUtils
-					.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 117, 127);
+					.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(),
+							REGNUMBER_START_INDEX, REGNUMBER_END_INDEX);
 
 			studentTransactionRecord.setRegistrationNumber(regNumber);
 

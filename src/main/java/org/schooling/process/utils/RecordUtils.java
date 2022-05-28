@@ -39,4 +39,5 @@ public class RecordUtils {
 
 		return StringUtils.substring(input, startIndex, endIndex);
 	}
+
 }

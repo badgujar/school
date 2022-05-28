@@ -24,5 +24,5 @@ public class StudentTransactionRecord extends StudentRecordMetadata{
 	private String previousRollNumber;
 	private List<Subject> subject;
 	private String redefinedStreamData;
-	
+
 }

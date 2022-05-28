@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 public class CanditateCollegeCodeValidationRule extends AbstractFileBodyValidationRule {
 
 	private Logger log = LogManager.getLogger(CanditateCollegeCodeValidationRule.class);
+	private static final int START_INDEX = 2;
+	private static final int END_INDEX = 4;
 
 	@Override
 	public boolean executeRule(StudentTransactionRecord studentTransactionRecord, ExecutionContext ctx) {
@@ -22,7 +24,8 @@ public class CanditateCollegeCodeValidationRule extends AbstractFileBodyValidati
 			String studentTxnRecordMessage = (String) ctx.get(Constant.STUDENT_TXN_RECORD_MESSAGE);
 
 			String collegeCode = RecordUtils
-					.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 2, 4);
+					.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), START_INDEX,
+							END_INDEX);
 
 			studentTransactionRecord.setCollegeCode(collegeCode);
 

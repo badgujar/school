@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 public class CanditateCommunityCodeValidationRule extends AbstractFileBodyValidationRule {
 
 	private Logger log = LogManager.getLogger(CanditateCommunityCodeValidationRule.class);
+	private static final int START_INDEX = 128;
+	private static final int END_INDEX = 129;
 
 	@Override
 	public boolean executeRule(StudentTransactionRecord studentTransactionRecord, ExecutionContext ctx) {
@@ -22,8 +24,8 @@ public class CanditateCommunityCodeValidationRule extends AbstractFileBodyValida
 
 			String communityCode = RecordUtils
 					.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(),
-							128, 129);
-//enum 
+							START_INDEX, END_INDEX);
+
 			if (communityCode != null
 					&& (communityCode.equals("0") || communityCode.equals("4") || communityCode.equals("5"))) {
 				StudentPersonalData studentPersonalData = studentTransactionRecord.getStudentPersonalData();

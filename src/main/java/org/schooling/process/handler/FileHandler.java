@@ -10,6 +10,7 @@ import org.schooling.process.core.CacheProvider;
 import org.schooling.process.core.ExecutionContext;
 import org.schooling.process.helper.FileHandleHelper;
 import org.schooling.process.model.StudentTransactionRecord;
+import org.schooling.process.service.SchoolingService;
 import org.schooling.process.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,37 +27,44 @@ public class FileHandler implements Processor {
 	@Autowired
 	private FileHandleHelper fileHandlerHelper;
 
+	@Autowired
+	private SchoolingService schoolingService;
+
 	@Override
 	public void process(Exchange exchange) throws Exception {
 		String methodName = "process";
 		ExecutionContext ctx = new ExecutionContext(cacheProvider);
 
-		Map<String, Object> camelFileName = exchange.getIn().getHeaders();
+		try {
 
-		String fileName = (String) camelFileName.get("camelfilenameonly");
-		log.debug(THIS_CLASS_NAME, methodName, "Received Inbound file is: " + fileName);
+			ctx.put(Constant.EXCHANGE, exchange);
 
-		String filePath = (String) camelFileName.get("CamelFileAbsolutePath");
-		log.debug(THIS_CLASS_NAME, methodName, "Received Inbound file from the path: " + filePath);
+			Map<String, Object> camelFileName = exchange.getIn().getHeaders();
 
-		String message = exchange.getIn().getBody(String.class);
+			String fileName = (String) camelFileName.get("camelfilenameonly");
+			log.debug(THIS_CLASS_NAME, methodName, "Received Inbound file is: " + fileName);
+			ctx.put("camelfilenameonly", (String) fileName);
 
-		ctx.put(Constant.EXCHANGE, exchange);
+			String filePath = (String) camelFileName.get("CamelFileAbsolutePath");
+			log.debug(THIS_CLASS_NAME, methodName, "Received Inbound file from the path: " + filePath);
 
-		ctx.put(Constant.STUDENT_TXN_RECORD_MESSAGE, message);
-		ctx.put("camelfilenameonly", (String) exchange.getIn().getHeader("camelfilenameonly"));
+			String message = exchange.getIn().getBody(String.class);
+			ctx.put(Constant.STUDENT_TXN_RECORD_MESSAGE, message);
 
-		fileHandlerHelper.validateFileMetaData(ctx);
+			fileHandlerHelper.validateFileMetaData(ctx);
 
-		StudentTransactionRecord studentTransactionRecord = new StudentTransactionRecord();
-		fileHandlerHelper.validateRecordLevel(studentTransactionRecord, ctx);
+			StudentTransactionRecord studentTransactionRecord = new StudentTransactionRecord();
+			fileHandlerHelper.validateRecordLevel(studentTransactionRecord, ctx);
 
-		if (Constant.ENROLLEMENT_STATUS_FAILED
-				.equals(studentTransactionRecord.getEnrollmentValidationStatus())) {
-			exchange.getIn().setHeader(Constant.FILE_FAILED, Constant.TRUE);
+			if (Constant.ENROLLEMENT_STATUS_FAILED.equals(studentTransactionRecord.getEnrollmentValidationStatus())) {
+				exchange.getIn().setHeader(Constant.FILE_FAILED, Constant.TRUE);
+			} else {
+				schoolingService.saveStudentDetails(studentTransactionRecord);
+			}
+
+		} finally {
+			ctx.clear();
 		}
-//finally
-		ctx.clear();
 	}
 
 }

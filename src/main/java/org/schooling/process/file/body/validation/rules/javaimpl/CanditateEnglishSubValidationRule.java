@@ -6,10 +6,8 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.schooling.process.core.ExecutionContext;
-import org.schooling.process.model.Practical;
 import org.schooling.process.model.StudentTransactionRecord;
 import org.schooling.process.model.Subject;
-import org.schooling.process.model.Theory;
 import org.schooling.process.utils.Constant;
 import org.schooling.process.utils.RecordUtils;
 import org.springframework.stereotype.Component;
@@ -27,18 +25,14 @@ public class CanditateEnglishSubValidationRule extends AbstractFileBodyValidatio
 			String studentTxnRecordMessage = (String) ctx.get(Constant.STUDENT_TXN_RECORD_MESSAGE);
 
 			List<Subject> subjects = new ArrayList<>();
-			Subject subject = new Subject();
 
-			subject.setCode(RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(),
-					144, 146));
+			subjects.add(buildPaper1(studentTxnRecordMessage));
+			subjects.add(buildPaper2(studentTxnRecordMessage));
 
-			buildTheory(studentTxnRecordMessage, subject);
-
-			buildPractical(studentTxnRecordMessage, subject);
-			subjects.add(subject);
 			studentTransactionRecord.setSubject(subjects);
 
 			return true;
+
 		} catch (Exception e) {
 			log.error("Exception occured: " + e.getMessage());
 			studentTransactionRecord.setEnrollmentValidationStatus(Constant.ENROLLEMENT_STATUS_FAILED);
@@ -46,37 +40,37 @@ public class CanditateEnglishSubValidationRule extends AbstractFileBodyValidatio
 		}
 	}
 
-	private void buildPractical(String studentTxnRecordMessage, Subject subject) {
+	private Subject buildPaper2(String studentTxnRecordMessage) {
 
-		Practical pratical = new Practical();
+		Subject subject = new Subject();
 
-		pratical.setSubjectTag(RecordUtils
-				.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 153, 154));
-		pratical.setMarks(RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(),
-				154, 157));
-		pratical.setHcrMarks(RecordUtils
-				.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 157, 159));
-
-		List<Practical> praticals = new ArrayList<>();
-		praticals.add(pratical);
-		subject.setListOfPractical(praticals);
+		subject.setSubjectTag(
+				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 153, 154));
+		subject.setMarks(
+				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 154, 157));
+		subject.setHcrMarks(
+				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 157, 159));
+		subject.setTheory(true);
+		return subject;
 
 	}
 
-	private void buildTheory(String studentTxnRecordMessage, Subject subject) {
+	private Subject buildPaper1(String studentTxnRecordMessage) {
 
-		Theory theory = new Theory();
+		Subject subject = new Subject();
 
-		theory.setSubjectTag(RecordUtils
-				.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 147, 148));
-		theory.setMarks(RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(),
-				148, 151));
-		theory.setHcrMarks(RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(),
-				151, 153));
+		subject.setCode(
+				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 144, 146));
 
-		List<Theory> theories = new ArrayList<>();
-		theories.add(theory);
-		subject.setListOfTheories(theories);
+		subject.setSubjectTag(
+				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 147, 148));
+		subject.setMarks(
+				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 148, 151));
+		subject.setHcrMarks(
+				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 151, 153));
+		subject.setTheory(true);
+
+		return subject;
 	}
 
 }

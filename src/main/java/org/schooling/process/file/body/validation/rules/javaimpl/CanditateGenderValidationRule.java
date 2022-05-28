@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 public class CanditateGenderValidationRule extends AbstractFileBodyValidationRule {
 
 	private Logger log = LogManager.getLogger(CanditateGenderValidationRule.class);
+	private static final int START_INDEX = 127;
+	private static final int END_INDEX = 128;
 
 	@Override
 	public boolean executeRule(StudentTransactionRecord studentTransactionRecord, ExecutionContext ctx) {
@@ -21,9 +23,10 @@ public class CanditateGenderValidationRule extends AbstractFileBodyValidationRul
 			String studentTxnRecordMessage = (String) ctx.get(Constant.STUDENT_TXN_RECORD_MESSAGE);
 
 			String gender = RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(),
-					127, 128);
-//constant
-			if ("M".equalsIgnoreCase(gender) || "F".equalsIgnoreCase(gender)) {
+					START_INDEX, END_INDEX);
+
+			if (Constant.GENDER_MALE_ABBREVATION.equalsIgnoreCase(gender)
+					|| Constant.GENDER_FEMALE_ABBREVATION.equalsIgnoreCase(gender)) {
 				StudentPersonalData studentPersonalData = studentTransactionRecord.getStudentPersonalData();
 				studentPersonalData.setGender(gender);
 

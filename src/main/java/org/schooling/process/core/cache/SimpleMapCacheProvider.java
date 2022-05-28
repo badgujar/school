@@ -14,6 +14,9 @@ import javax.cache.Cache;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.schooling.process.core.CacheProvider;
+import org.schooling.process.transaction.dao.SchoolingLookupEntityService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,6 +24,9 @@ public class SimpleMapCacheProvider implements CacheProvider {
 
 	private Logger log = LogManager.getLogger(SimpleMapCacheProvider.class);
 	
+	@Autowired
+	private ApplicationContext context;
+
 	Map<String, Set> sets = new ConcurrentHashMap<>();
 
 	// for unit testing and local testing
@@ -127,30 +133,29 @@ public class SimpleMapCacheProvider implements CacheProvider {
 	}
 
 	public void createCache(CacheConfiguration cacheConfiguration)  {
-//		SimpleMapCache cache = new SimpleMapCache();
-//		try {
-//			if (cacheConfiguration.getCacheLoader() != null) {
-//				Class cacheloaderClass = Class.forName(cacheConfiguration.getCacheLoader());
-//				if (cacheloaderClass != null) {
-//					GenericCacheLoader cacheLoader = (GenericCacheLoader) cacheloaderClass.newInstance();
-//					cacheLoader.setCacheConfiguration(cacheConfiguration);
-//					ITbosLookupEntityService service = (ITbosLookupEntityService) SpringContextUtil
-//							.getApplicationContext().getBean("tbosLookupEntityServiceImpl");
+		SimpleMapCache cache = new SimpleMapCache();
+		try {
+			if (cacheConfiguration.getCacheLoader() != null) {
+				Class cacheloaderClass = Class.forName(cacheConfiguration.getCacheLoader());
+				if (cacheloaderClass != null) {
+					GenericCacheLoader cacheLoader = (GenericCacheLoader) cacheloaderClass.newInstance();
+					cacheLoader.setCacheConfiguration(cacheConfiguration);
+					SchoolingLookupEntityService service = (SchoolingLookupEntityService) context
+							.getBean("schoolingLookupEntityServiceImpl");
 //					cacheLoader.setTbosLookupEntityService(service);
-//					cacheLoader.init();
-//					cache.setCacheloader(cacheLoader);
-//
-//					Map map = cacheLoader.loadAll();
-//					cache.putAll(map);
-//					this.localCaches.put(cacheConfiguration.getCacheName(), cache);
-////					LogUtil.info("SimplemapCacheProvider", "createCache",
-////							"Cache Created for Cache " + cacheConfiguration.getCacheName());
-//				}
-//			}
-//		} catch (Exception e) {
-////			LogUtil.error("SimplemapCacheProvider", "createCache",
-////					"Exception in creating Cache " + cacheConfiguration.getCacheName(), e);
-//		}
+					cacheLoader.init();
+					cache.setCacheloader(cacheLoader);
+
+					Map map = cacheLoader.loadAll();
+					cache.putAll(map);
+					this.localCaches.put(cacheConfiguration.getCacheName(), cache);
+//					LogUtil.info("SimplemapCacheProvider", "createCache",
+//							"Cache Created for Cache " + cacheConfiguration.getCacheName());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

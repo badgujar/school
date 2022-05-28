@@ -13,6 +13,12 @@ import org.springframework.stereotype.Component;
 public class CanditateNameValidationRule extends AbstractFileBodyValidationRule {
 
 	private Logger log = LogManager.getLogger(CanditateNameValidationRule.class);
+	private static final int STUDENT_NAME_START_INDEX = 12;
+	private static final int STUDENT_NAME_END_INDEX = 47;
+	private static final int FATHER_NAME_START_INDEX = 48;
+	private static final int FATHER_NAME_END_INDEX = 82;
+	private static final int MOTHER_NAME_START_INDEX = 83;
+	private static final int MOTHER_NAME_END_INDEX = 117;
 
 	@Override
 	public boolean executeRule(StudentTransactionRecord studentTransactionRecord, ExecutionContext ctx) {
@@ -21,11 +27,14 @@ public class CanditateNameValidationRule extends AbstractFileBodyValidationRule 
 			String studentTxnRecordMessage = (String) ctx.get(Constant.STUDENT_TXN_RECORD_MESSAGE);
 
 			String studentName = RecordUtils
-					.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 12, 47);
+					.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(),
+							STUDENT_NAME_START_INDEX, STUDENT_NAME_END_INDEX);
 			String studentFatherName = RecordUtils
-					.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 48, 82);
+					.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(),
+							FATHER_NAME_START_INDEX, FATHER_NAME_END_INDEX);
 			String studentMotherName = RecordUtils
-					.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 83, 117);
+					.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(),
+							MOTHER_NAME_START_INDEX, MOTHER_NAME_END_INDEX);
 
 			studentTransactionRecord
 					.setStudentPersonalData(new StudentPersonalData(studentName, studentFatherName, studentMotherName));

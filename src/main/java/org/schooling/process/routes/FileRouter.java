@@ -26,16 +26,13 @@ public class FileRouter extends RouteBuilder {
 
 		Predicate failPredicate = header(Constant.FILE_FAILED).isEqualTo(Constant.TRUE);
 		Predicate processedPredicate = header(Constant.FILE_PROCESSED).isEqualTo(Constant.TRUE);
-		
-		DataFormat dataFormat = new BeanIODataFormat("classpath:transformation/request/beanio/studentdatabeanio.xml", "studentEnrollmentData");
 
-		from(fileComponent + sourcePath)
-		.unmarshal(dataFormat)
-		.split(body())
-		.log("${body}")
-		.bean(FileHandler.class).choice().when(failPredicate)
-				.to(fileComponent + errorPath).end().choice().when(processedPredicate).to(fileComponent + successPath)
-				.end().log("${messageHistory}");
+		DataFormat dataFormat = new BeanIODataFormat("classpath:transformation/request/beanio/studentdatabeanio.xml",
+				"studentEnrollmentData");
+
+		from(fileComponent + sourcePath).split(body().tokenize("\\r\\n")).log("${body}").bean(FileHandler.class)
+				.choice().when(failPredicate).to(fileComponent + errorPath).end().choice().when(processedPredicate)
+				.to(fileComponent + successPath).end().log("${messageHistory}");
 	}
 
 }

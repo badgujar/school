@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 public class CanditateSerialNumberValidationRule extends AbstractFileBodyValidationRule {
 
 	private Logger log = LogManager.getLogger(CanditateSerialNumberValidationRule.class);
+	private static final int START_INDEX = 5;
+	private static final int END_INDEX = 8;
 
 	@Override
 	public boolean executeRule(StudentTransactionRecord studentTransactionRecord, ExecutionContext ctx) {
@@ -20,7 +22,8 @@ public class CanditateSerialNumberValidationRule extends AbstractFileBodyValidat
 			String studentTxnRecordMessage = (String) ctx.get(Constant.STUDENT_TXN_RECORD_MESSAGE);
 
 			String serialNumber = RecordUtils
-					.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 5, 8);
+					.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), START_INDEX,
+							END_INDEX);
 
 			studentTransactionRecord.setSerialNumber(serialNumber);
 

@@ -1,15 +1,16 @@
 package org.schooling.process.model;
 
-import java.util.List;
-
 import lombok.Data;
 
 @Data
 public class Subject {
 
 	private String code;
-	private List<Theory> listOfTheories;
-	private List<Practical> listOfPractical;
+	private String subjectTag;
+	private String marks;
+	private String hcrMarks;
+	private boolean isTheory;
+	private boolean isPractical;
 
 	public enum MilSubject {
 		O("O  "), H("H  "), B("B  "), P("P  "), T("T  "), U("U  "), AE("AE "), S("S  ");

@@ -1,15 +1,12 @@
 package org.schooling.process.file.body.validation.rules.javaimpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.schooling.process.core.ExecutionContext;
-import org.schooling.process.model.Practical;
 import org.schooling.process.model.StudentTransactionRecord;
 import org.schooling.process.model.Subject;
-import org.schooling.process.model.Theory;
 import org.schooling.process.utils.Constant;
 import org.schooling.process.utils.RecordUtils;
 import org.springframework.stereotype.Component;
@@ -18,6 +15,7 @@ import org.springframework.stereotype.Component;
 public class CanditateStOpt3ExOptValidationRule extends AbstractFileBodyValidationRule {
 
 	private Logger log = LogManager.getLogger(CanditateStOpt3ExOptValidationRule.class);
+
 	@Override
 	public boolean executeRule(StudentTransactionRecord studentTransactionRecord, ExecutionContext ctx) {
 
@@ -31,18 +29,14 @@ public class CanditateStOpt3ExOptValidationRule extends AbstractFileBodyValidati
 
 			subject.setCode(subjectCode);
 
-			List<Theory> theories = new ArrayList<>();
-			buildTheory1(studentTxnRecordMessage, theories);
-			buildTheory2(studentTxnRecordMessage, theories);
-			subject.setListOfTheories(theories);
-
-
-			List<Practical> praticals = new ArrayList<>();
-			buildPractical1(studentTxnRecordMessage, praticals);
-			buildPractical2(studentTxnRecordMessage, praticals);
-			subject.setListOfPractical(praticals);
-
+			subjects.add(buildTheory1(studentTxnRecordMessage, subject));
 			subjects.add(subject);
+
+			subjects.add(buildTheory2(studentTxnRecordMessage));
+
+			subjects.add(buildPractical1(studentTxnRecordMessage));
+			subjects.add(buildPractical2(studentTxnRecordMessage));
+
 			studentTransactionRecord.setSubject(subjects);
 			return true;
 
@@ -54,59 +48,55 @@ public class CanditateStOpt3ExOptValidationRule extends AbstractFileBodyValidati
 		
 	}
 
-	private void buildTheory1(String studentTxnRecordMessage, List<Theory> theories) {
+	private Subject buildTheory1(String studentTxnRecordMessage, Subject subject) {
 
-		Theory theory = new Theory();
-
-		theory.setSubjectTag(
+		subject.setSubjectTag(
 				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 192, 193));
-		theory.setMarks(
+		subject.setMarks(
 				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 193, 196));
-		theory.setHcrMarks(
+		subject.setHcrMarks(
 				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 196, 198));
 
-		theories.add(theory);
+		return subject;
 	}
 
-	private void buildTheory2(String studentTxnRecordMessage, List<Theory> theories) {
+	private Subject buildTheory2(String studentTxnRecordMessage) {
 
-		Theory theory = new Theory();
+		Subject subject = new Subject();
 
-		theory.setSubjectTag(
+		subject.setSubjectTag(
 				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 198, 199));
-		theory.setMarks(
+		subject.setMarks(
 				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 199, 202));
-		theory.setHcrMarks(
+		subject.setHcrMarks(
 				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 202, 204));
-
-		theories.add(theory);
+		return subject;
 	}
 
-	private void buildPractical1(String studentTxnRecordMessage, List<Practical> praticals) {
+	private Subject buildPractical1(String studentTxnRecordMessage) {
 
-		Practical pratical = new Practical();
+		Subject subject = new Subject();
 
-		pratical.setSubjectTag(
+		subject.setSubjectTag(
 				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 204, 205));
-		pratical.setMarks(
+		subject.setMarks(
 				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 205, 208));
-		pratical.setHcrMarks(
+		subject.setHcrMarks(
 				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 208, 210));
-		praticals.add(pratical);
+		return subject;
 	}
 
-	private void buildPractical2(String studentTxnRecordMessage, List<Practical> praticals) {
+	private Subject buildPractical2(String studentTxnRecordMessage) {
 
-		Practical pratical = new Practical();
+		Subject subject = new Subject();
 
-		pratical.setSubjectTag(
+		subject.setSubjectTag(
 				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 210, 211));
-		pratical.setMarks(
+		subject.setMarks(
 				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 211, 214));
-		pratical.setHcrMarks(
+		subject.setHcrMarks(
 				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 214, 216));
-
-		praticals.add(pratical);
+		return subject;
 
 
 	}

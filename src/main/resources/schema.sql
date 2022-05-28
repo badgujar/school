@@ -48,12 +48,14 @@ CREATE TABLE IF NOT EXISTS schoolproject.marks(
 CREATE TABLE IF NOT EXISTS schoolproject.subjects(
   id  INTEGER  NOT NULL AUTO_INCREMENT,
   primary key (id),
-  code VARCHAR(8),
-  description VARCHAR(8),
-  is_theroy VARCHAR(8),
-  max_marks INTEGER(8),
-  min_marks INTEGER(8),
-  pass_marks INTEGER(8),
-  is_optional INTEGER(1),
-  stream VARCHAR(30)
+  code VARCHAR(25),
+  description VARCHAR(25),
+  is_theroy BOOLEAN,
+  paper_no INTEGER,
+  max_marks INTEGER,
+  min_marks INTEGER,
+  pass_marks INTEGER,
+  is_optional BOOLEAN,
+  stream INTEGER
 );
+

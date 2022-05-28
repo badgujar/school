@@ -1,6 +1,10 @@
 package org.schooling.process.file.body.validation.rules.javaimpl;
 
-import java.time.temporal.ValueRange;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import javax.annotation.PostConstruct;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +18,8 @@ import org.springframework.stereotype.Component;
 public class CanditateStreamCodeValidationRule extends AbstractFileBodyValidationRule {
 
 	private Logger log = LogManager.getLogger(CanditateStreamCodeValidationRule.class);
+	private static final int START_INDEX = 4;
+	private static final int END_INDEX = 5;
 
 	@Override
 	public boolean executeRule(StudentTransactionRecord studentTransactionRecord, ExecutionContext ctx) {
@@ -22,10 +28,10 @@ public class CanditateStreamCodeValidationRule extends AbstractFileBodyValidatio
 			String studentTxnRecordMessage = (String) ctx.get(Constant.STUDENT_TXN_RECORD_MESSAGE);
 
 			String streamCode = RecordUtils
-					.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 4, 5);
-			// move to post costruct
-//IntStream
-			if (ValueRange.of(1, 8).isValidIntValue(Integer.valueOf(streamCode))) {
+					.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), START_INDEX,
+							END_INDEX);
+
+			if (streamCodeRange().collect(Collectors.toList()).contains(Integer.valueOf(streamCode))) {
 				studentTransactionRecord.setStreamCode(streamCode);
 				return true;
 			}
@@ -40,4 +46,8 @@ public class CanditateStreamCodeValidationRule extends AbstractFileBodyValidatio
 		}
 	}
 
+	@PostConstruct
+	public Stream<Integer> streamCodeRange() {
+		return IntStream.range(1, 8).boxed();
+	}
 }

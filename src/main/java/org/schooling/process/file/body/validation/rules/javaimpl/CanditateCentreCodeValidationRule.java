@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 public class CanditateCentreCodeValidationRule extends AbstractFileBodyValidationRule {
 
 	private Logger log = LogManager.getLogger(CanditateCentreCodeValidationRule.class);
+	private static final int START_INDEX = 8;
+	private static final int END_INDEX = 12;
 
 	@Override
 	public boolean executeRule(StudentTransactionRecord studentTransactionRecord, ExecutionContext ctx) {
@@ -20,7 +22,8 @@ public class CanditateCentreCodeValidationRule extends AbstractFileBodyValidatio
 			String studentTxnRecordMessage = (String) ctx.get(Constant.STUDENT_TXN_RECORD_MESSAGE);
 
 			String centreCode = RecordUtils
-					.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 8, 12);
+					.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), START_INDEX,
+							END_INDEX);
 
 			studentTransactionRecord.setCenterCode(centreCode);
 

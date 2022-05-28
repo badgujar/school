@@ -1,15 +1,12 @@
 package org.schooling.process.file.body.validation.rules.javaimpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.schooling.process.core.ExecutionContext;
-import org.schooling.process.model.Practical;
 import org.schooling.process.model.StudentTransactionRecord;
 import org.schooling.process.model.Subject;
-import org.schooling.process.model.Theory;
 import org.schooling.process.utils.Constant;
 import org.schooling.process.utils.RecordUtils;
 import org.springframework.stereotype.Component;
@@ -26,21 +23,20 @@ public class CanditateSt12Opt12ValidationRule extends AbstractFileBodyValidation
 			String studentTxnRecordMessage = (String) ctx.get(Constant.STUDENT_TXN_RECORD_MESSAGE);
 
 			List<Subject> subjects = studentTransactionRecord.getSubject();
+
 			Subject subject = new Subject();
+
 			String subjectCode = RecordUtils
 					.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 168, 171);
 
 			subject.setCode(subjectCode);
 
-			List<Theory> theories = new ArrayList<>();
-			buildTheory1(studentTxnRecordMessage, theories);
-			buildTheory2(studentTxnRecordMessage, theories);
-			subject.setListOfTheories(theories);
+			subjects.add(buildTheory1(studentTxnRecordMessage, subject));
+			subjects.add(buildTheory2(studentTxnRecordMessage));
+			subjects.add(buildPractical(studentTxnRecordMessage));
 
-			buildPractical(studentTxnRecordMessage, subject);
-
-			subjects.add(subject);
 			studentTransactionRecord.setSubject(subjects);
+
 			return true;
 
 		} catch (Exception e) {
@@ -50,49 +46,44 @@ public class CanditateSt12Opt12ValidationRule extends AbstractFileBodyValidation
 		}
 	}
 
-	private void buildTheory2(String studentTxnRecordMessage, List<Theory> theories) {
+	private Subject buildTheory2(String studentTxnRecordMessage) {
 
-		Theory theory = new Theory();
+		Subject subject = new Subject();
 
-		theory.setSubjectTag(
+		subject.setSubjectTag(
 				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 177, 178));
-		theory.setMarks(
+		subject.setMarks(
 				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 178, 181));
-		theory.setHcrMarks(
+		subject.setHcrMarks(
 				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 181, 183));
 
-		theories.add(theory);
+		return subject;
 	}
 
-	private void buildTheory1(String studentTxnRecordMessage, List<Theory> theories) {
+	private Subject buildTheory1(String studentTxnRecordMessage, Subject subject) {
 
-		Theory theory = new Theory();
-
-		theory.setSubjectTag(
+		subject.setSubjectTag(
 				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 171, 172));
-		theory.setMarks(
+		subject.setMarks(
 				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 172, 175));
-		theory.setHcrMarks(
+		subject.setHcrMarks(
 				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 175, 177));
 
-		theories.add(theory);
+		return subject;
 	}
 
-	private void buildPractical(String studentTxnRecordMessage, Subject subject) {
+	private Subject buildPractical(String studentTxnRecordMessage) {
 
-		Practical pratical = new Practical();
+		Subject subject = new Subject();
 
-		pratical.setSubjectTag(
+		subject.setSubjectTag(
 				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 183, 184));
-		pratical.setMarks(
+		subject.setMarks(
 				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 184, 187));
-		pratical.setHcrMarks(
+		subject.setHcrMarks(
 				RecordUtils.fetchCharactersByStartIndexAndEndIndex(studentTxnRecordMessage.toCharArray(), 187, 189));
 
-		List<Practical> praticals = new ArrayList<>();
-		praticals.add(pratical);
-		subject.setListOfPractical(praticals);
-
+		return subject;
 	}
 
 }
